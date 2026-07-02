@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¡Estás invitad@ a la fiesta!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="bg-balloons" id="bgBalloons" aria-hidden="true"></div>
+
+<main>
+
+  <!-- ============================================================
+       🎈 SECCIÓN HERO — Edita el nombre y el mensaje aquí abajo
+       ============================================================ -->
+  <section class="hero">
+    <span class="eyebrow">¡Cumpleaños número 9! 🎂</span>
+    <h1>¡Estás invitad@ a la fiesta de<span class="name" id="childName">Guadalupe!</span></h1>
+    <p class="subtitle">Aqui ponemos un textico bien chimba jejeje</p>
+    <button class="surprise-btn" id="surpriseBtn">🎉 Wiii</button>
+  </section>
+
+  <!-- ============================================================
+       ⏳ CUENTA ATRÁS — Edita la fecha del evento en script.js (EVENT_CONFIG)
+       ============================================================ -->
+  <section class="countdown-section">
+    <h2 class="countdown-title">Faltan solo...</h2>
+    <div class="countdown" id="countdown">
+      <div class="count-box"><div class="num" id="cd-days">00</div><div class="label">Días</div></div>
+      <div class="count-box"><div class="num" id="cd-hours">00</div><div class="label">Horas</div></div>
+      <div class="count-box"><div class="num" id="cd-min">00</div><div class="label">Min</div></div>
+      <div class="count-box"><div class="num" id="cd-sec">00</div><div class="label">Seg</div></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       🎈 GLOBOS CON LOS DETALLES DE LA FIESTA
+       ============================================================ -->
+  <section class="details">
+    <h2 class="details-title">Revienta los globos 🎈</h2>
+    <p class="details-hint">Toca cada globo para descubrir los detalles</p>
+    <div class="balloon-row" id="balloonRow">
+      <div>
+        <button class="balloon-btn" data-detail="fecha" style="--balloon-color:var(--pink)">
+          <div class="balloon-shape" style="background:var(--pink)">📅</div>
+          <span class="balloon-label">Fecha</span>
+        </button>
+        <div class="reveal-card" id="reveal-fecha">Sábado 15 de agosto de 2026</div>
+      </div>
+      <div>
+        <button class="balloon-btn" data-detail="hora" style="--balloon-color:var(--yellow)">
+          <div class="balloon-shape" style="background:var(--yellow)">⏰</div>
+          <span class="balloon-label">Hora</span>
+        </button>
+        <div class="reveal-card" id="reveal-hora">3:00 p.m. – 6:00 p.m.</div>
+      </div>
+      <div>
+        <button class="balloon-btn" data-detail="lugar" style="--balloon-color:var(--turquoise)">
+          <div class="balloon-shape" style="background:var(--turquoise)">📍</div>
+          <span class="balloon-label">Lugar</span>
+        </button>
+        <div class="reveal-card" id="reveal-lugar">Pendiente por definir</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ✅ RSVP — Confirmación de asistencia
+       ============================================================ -->
+  <section class="rsvp-section">
+    <div class="rsvp">
+      <div id="rsvpForm">
+        <h2>Confirma tu asistencia</h2>
+        <p class="lead">¡Nos encantaría que nos acompañes!</p>
+        <form id="formRsvp">
+          <div class="field">
+            <label for="guestName">Tu nombre</label>
+            <input type="text" id="guestName" placeholder="Escribe tu nombre" required>
+          </div>
+          <div class="field">
+            <label>¿Podrás venir?</label>
+            <div class="choice-group">
+              <label><input type="radio" name="asistencia" value="si" required> 🎉 ¡Sí voy!</label>
+              <label><input type="radio" name="asistencia" value="no"> 😢 No puedo</label>
+            </div>
+          </div>
+          <button type="submit" class="rsvp-submit">Confirmar asistencia</button>
+        </form>
+      </div>
+      <div class="rsvp-thanks" id="rsvpThanks">
+        <div class="big-emoji" id="thanksEmoji">🎊</div>
+        <h2 id="thanksTitle">¡Gracias!</h2>
+        <p id="thanksMessage">Tu respuesta fue registrada.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+<!--     Hecho con 💜 para un cumpleaños inolvidable
+ -->  
+</footer>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
