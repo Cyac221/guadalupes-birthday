@@ -248,6 +248,43 @@ section{
   to{ transform:scale(1); opacity:1; }
 }
 
+/* ---------- Qué llevar (spa) ---------- */
+.packing{
+  background:var(--white);
+  border-radius:24px;
+  padding:36px 28px;
+  box-shadow:0 14px 34px rgba(43,33,64,0.1);
+  text-align:center;
+}
+.packing h2{
+  font-size:1.4rem;
+  margin-bottom:22px;
+}
+.packing-list{
+  list-style:none;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  text-align:left;
+}
+.packing-list li{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:700;
+  background:var(--sky2);
+  padding:14px 16px;
+  border-radius:14px;
+  font-size:0.95rem;
+}
+.packing-icon{
+  font-size:1.3rem;
+  flex-shrink:0;
+}
+@media (max-width:480px){
+  .packing-list{ grid-template-columns:1fr; }
+}
+
 /* ---------- RSVP ---------- */
 .rsvp{
   background:var(--white);
@@ -257,9 +294,7 @@ section{
   text-align:center;
 }
 .rsvp h2{ font-size:1.5rem; margin-bottom:6px; }
-.rsvp p.lead{ color:#6b5f85; margin-bottom:24px; font-weight:600; }
-
-.field{
+.rsvp p.lead{ color:#6b5f85; margin-bottom:24px; font-weight:600; }.field{
   text-align:left;
   margin-bottom:18px;
 }
