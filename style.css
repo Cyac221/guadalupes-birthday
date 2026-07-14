@@ -31,20 +31,19 @@ h1, h2, h3, .display{
 
 /* ---------- Imágenes de fondo (Nezuko) — estáticas ---------- */
 .bg-images{
-  position:fixed;
-  inset:0;
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
   pointer-events:none;
   z-index:0;
-  overflow:hidden;
 }
 .bg-image-item{
   position:absolute;
   opacity:0.45;
+  max-width:42vw; /* nunca ocupa más del 42% del ancho, así izquierda y derecha no se tocan */
+  height:auto;
   filter:drop-shadow(0 8px 14px rgba(43,33,64,0.18));
-}
-
-@media (max-width:600px){
-  .bg-image-item{ transform:scale(0.6) !important; }
 }
 
 /* ---------- Confeti ---------- */

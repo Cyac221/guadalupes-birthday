@@ -8,46 +8,64 @@ const EVENT_CONFIG = {
   whatsappNumber: "573234403124",    // Número que recibe las confirmaciones (con código de país, sin +)
 };
 
-/* ---------- Imágenes de fondo (Nezuko) — estáticas y grandes ---------- */
+/* ---------- Imágenes de fondo (Nezuko) — repartidas sin superponerse ---------- */
 const bgImagesContainer = document.getElementById('bgImages');
 
-// 💡 Cada imagen tiene su propia posición, tamaño y rotación.
-// Edita estos valores para mover/agrandar/achicar cada una.
-const NEZUKO_LAYOUT = [
-  { src: 'images/1.png', top: '-30px',   left: '-40px',  width: '320px', rotate: '-8deg' },
-  { src: 'images/2.png', top: '4%',      right: '-60px', width: '300px', rotate: '10deg' },
-  { src: 'images/3.png', bottom: '-20px', left: '8%',    width: '340px', rotate: '-5deg' },
-  { src: 'images/4.png', bottom: '2%',   right: '4%',    width: '300px', rotate: '7deg' },
-  { src: 'images/5.png', top: '38%',     left: '50%',    width: '360px', rotate: '0deg', extraTransform: 'translateX(-50%)' },
-  { src: 'images/2.png', top: '-20px',   left: '38%',    width: '220px', rotate: '5deg' },
-  { src: 'images/4.png', top: '18%',     left: '-70px',  width: '250px', rotate: '-12deg' },
-  { src: 'images/1.png', top: '22%',     right: '-30px', width: '230px', rotate: '9deg' },
-  { src: 'images/5.png', bottom: '30%',  left: '-50px',  width: '260px', rotate: '-6deg' },
-  { src: 'images/3.png', bottom: '34%',  right: '-40px', width: '240px', rotate: '8deg' },
-  { src: 'images/2.png', bottom: '-40px', left: '42%',   width: '280px', rotate: '4deg' },
-  { src: 'images/1.png', top: '60%',     right: '30%',   width: '200px', rotate: '-10deg' },
+// 💡 Edita estas listas para cambiar cuáles imágenes van a la izquierda o derecha,
+// su ancho base (antes de aplicar SCALE) y su rotación.
+const LEFT_ITEMS = [
+  { src: 'images/1.png', width: 300, rotate: -8 },
+  { src: 'images/3.png', width: 340, rotate: -5 },
+  { src: 'images/5.png', width: 320, rotate: -6 },
+];
+const RIGHT_ITEMS = [
+  { src: 'images/2.png', width: 300, rotate: 10 },
+  { src: 'images/4.png', width: 300, rotate: 7 },
+  { src: 'images/2.png', width: 280, rotate: 4 },
 ];
 
-// 💡 Multiplicador de tamaño: sube o baja este número para agrandar/achicar TODAS de una vez
-const SCALE = 1.6;
-NEZUKO_LAYOUT.forEach(item => {
-  item.width = Math.round(parseInt(item.width) * SCALE) + 'px';
-});
+const SCALE = 1.6; // multiplicador de tamaño para TODAS las nezukos
 
-NEZUKO_LAYOUT.forEach(item => {
-  const img = document.createElement('img');
-  img.src = item.src;
-  img.alt = '';
-  img.className = 'bg-image-item';
-  img.style.width = item.width;
-  if (item.top !== undefined) img.style.top = item.top;
-  if (item.bottom !== undefined) img.style.bottom = item.bottom;
-  if (item.left !== undefined) img.style.left = item.left;
-  if (item.right !== undefined) img.style.right = item.right;
-  const rotate = `rotate(${item.rotate})`;
-  img.style.transform = item.extraTransform ? `${item.extraTransform} ${rotate}` : rotate;
-  bgImagesContainer.appendChild(img);
-});
+function placeNezukos() {
+  bgImagesContainer.innerHTML = '';
+  const totalHeight = document.body.scrollHeight;
+  const leftSpacing = totalHeight / LEFT_ITEMS.length;
+  const rightSpacing = totalHeight / RIGHT_ITEMS.length;
+
+  LEFT_ITEMS.forEach((item, i) => {
+    const width = Math.round(item.width * SCALE);
+    const img = document.createElement('img');
+    img.src = item.src;
+    img.alt = '';
+    img.className = 'bg-image-item';
+    img.style.width = width + 'px';
+    img.style.left = '-' + Math.round(width * 0.15) + 'px';
+    img.style.top = Math.round(i * leftSpacing + leftSpacing * 0.15) + 'px';
+    img.style.transform = `rotate(${item.rotate}deg)`;
+    bgImagesContainer.appendChild(img);
+  });
+
+  RIGHT_ITEMS.forEach((item, i) => {
+    const width = Math.round(item.width * SCALE);
+    const img = document.createElement('img');
+    img.src = item.src;
+    img.alt = '';
+    img.className = 'bg-image-item';
+    img.style.width = width + 'px';
+    img.style.right = '-' + Math.round(width * 0.15) + 'px';
+    // Se desfasan respecto a la columna izquierda para que se vea más natural
+    img.style.top = Math.round(i * rightSpacing + rightSpacing * 0.55) + 'px';
+    img.style.transform = `rotate(${item.rotate}deg)`;
+    bgImagesContainer.appendChild(img);
+  });
+}
+
+// Esperamos a que cargue todo (fuentes e imágenes) para medir bien el alto real de la página
+window.addEventListener('load', placeNezukos);
+// Recalculamos si cambia el tamaño de la ventana (ej. al girar el celular)
+window.addEventListener('resize', placeNezukos);
+// Por si acaso, una primera pasada inmediata
+placeNezukos();
 
 /* ---------- Confeti ---------- */
 function launchConfetti(count = 120) {
