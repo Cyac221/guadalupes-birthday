@@ -13,40 +13,43 @@ const bgImagesContainer = document.getElementById('bgImages');
 
 // 💡 Edita estas listas para cambiar cuáles imágenes van a la izquierda o derecha,
 // su ancho base (antes de aplicar SCALE) y su rotación.
+// Menos items por columna = más espacio disponible para cada una (se pueden hacer más grandes sin chocar).
 const LEFT_ITEMS = [
-  { src: 'images/1.png', width: 300, rotate: -8 },
-  { src: 'images/3.png', width: 340, rotate: -5 },
-  { src: 'images/5.png', width: 320, rotate: -6 },
+  { src: 'images/1.png', width: 340, rotate: -8 },
+  { src: 'images/5.png', width: 360, rotate: -6 },
 ];
 const RIGHT_ITEMS = [
-  { src: 'images/2.png', width: 300, rotate: 10 },
-  { src: 'images/4.png', width: 300, rotate: 7 },
-  { src: 'images/2.png', width: 280, rotate: 4 },
+  { src: 'images/2.png', width: 340, rotate: 10 },
+  { src: 'images/4.png', width: 340, rotate: 7 },
 ];
 
-const SCALE = 1.6; // multiplicador de tamaño para TODAS las nezukos
+const SCALE = 2.2; // multiplicador de tamaño para TODAS las nezukos
 
 function placeNezukos() {
   bgImagesContainer.innerHTML = '';
   const totalHeight = document.body.scrollHeight;
+  const viewportWidth = window.innerWidth;
+  const maxWidthByViewport = viewportWidth * 0.62; // nunca más del 62% del ancho de pantalla
   const leftSpacing = totalHeight / LEFT_ITEMS.length;
   const rightSpacing = totalHeight / RIGHT_ITEMS.length;
 
   LEFT_ITEMS.forEach((item, i) => {
-    const width = Math.round(item.width * SCALE);
+    // El ancho final respeta 3 límites a la vez: el tamaño pedido, el espacio vertical
+    // disponible (para no chocar con la siguiente) y el ancho de pantalla (para no salirse).
+    const width = Math.round(Math.min(item.width * SCALE, leftSpacing * 0.85, maxWidthByViewport));
     const img = document.createElement('img');
     img.src = item.src;
     img.alt = '';
     img.className = 'bg-image-item';
     img.style.width = width + 'px';
     img.style.left = '-' + Math.round(width * 0.15) + 'px';
-    img.style.top = Math.round(i * leftSpacing + leftSpacing * 0.15) + 'px';
+    img.style.top = Math.round(i * leftSpacing + leftSpacing * 0.1) + 'px';
     img.style.transform = `rotate(${item.rotate}deg)`;
     bgImagesContainer.appendChild(img);
   });
 
   RIGHT_ITEMS.forEach((item, i) => {
-    const width = Math.round(item.width * SCALE);
+    const width = Math.round(Math.min(item.width * SCALE, rightSpacing * 0.85, maxWidthByViewport));
     const img = document.createElement('img');
     img.src = item.src;
     img.alt = '';

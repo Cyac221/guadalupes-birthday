@@ -41,7 +41,6 @@ h1, h2, h3, .display{
 .bg-image-item{
   position:absolute;
   opacity:0.45;
-  max-width:42vw; /* nunca ocupa más del 42% del ancho, así izquierda y derecha no se tocan */
   height:auto;
   filter:drop-shadow(0 8px 14px rgba(43,33,64,0.18));
 }
