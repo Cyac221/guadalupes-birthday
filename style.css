@@ -40,7 +40,7 @@ h1, h2, h3, .display{
 }
 .bg-image-item{
   position:absolute;
-  opacity:0.45;
+  opacity:0.65;
   height:auto;
   filter:drop-shadow(0 8px 14px rgba(43,33,64,0.18));
 }

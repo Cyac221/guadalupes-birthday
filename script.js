@@ -23,20 +23,20 @@ const RIGHT_ITEMS = [
   { src: 'images/4.png', width: 340, rotate: 7 },
 ];
 
-const SCALE = 2.2; // multiplicador de tamaño para TODAS las nezukos
+const SCALE = 2.8; // multiplicador de tamaño para TODAS las nezukos
 
 function placeNezukos() {
   bgImagesContainer.innerHTML = '';
   const totalHeight = document.body.scrollHeight;
   const viewportWidth = window.innerWidth;
-  const maxWidthByViewport = viewportWidth * 0.62; // nunca más del 62% del ancho de pantalla
+  const maxWidthByViewport = viewportWidth * 0.85; // nunca más del 85% del ancho de pantalla
   const leftSpacing = totalHeight / LEFT_ITEMS.length;
   const rightSpacing = totalHeight / RIGHT_ITEMS.length;
 
   LEFT_ITEMS.forEach((item, i) => {
     // El ancho final respeta 3 límites a la vez: el tamaño pedido, el espacio vertical
     // disponible (para no chocar con la siguiente) y el ancho de pantalla (para no salirse).
-    const width = Math.round(Math.min(item.width * SCALE, leftSpacing * 0.85, maxWidthByViewport));
+    const width = Math.round(Math.min(item.width * SCALE, leftSpacing * 0.95, maxWidthByViewport));
     const img = document.createElement('img');
     img.src = item.src;
     img.alt = '';
@@ -49,7 +49,7 @@ function placeNezukos() {
   });
 
   RIGHT_ITEMS.forEach((item, i) => {
-    const width = Math.round(Math.min(item.width * SCALE, rightSpacing * 0.85, maxWidthByViewport));
+    const width = Math.round(Math.min(item.width * SCALE, rightSpacing * 0.95, maxWidthByViewport));
     const img = document.createElement('img');
     img.src = item.src;
     img.alt = '';
