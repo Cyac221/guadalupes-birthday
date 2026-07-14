@@ -28,6 +28,12 @@ const NEZUKO_LAYOUT = [
   { src: 'images/1.png', top: '60%',     right: '30%',   width: '200px', rotate: '-10deg' },
 ];
 
+// 💡 Multiplicador de tamaño: sube o baja este número para agrandar/achicar TODAS de una vez
+const SCALE = 1.6;
+NEZUKO_LAYOUT.forEach(item => {
+  item.width = Math.round(parseInt(item.width) * SCALE) + 'px';
+});
+
 NEZUKO_LAYOUT.forEach(item => {
   const img = document.createElement('img');
   img.src = item.src;
