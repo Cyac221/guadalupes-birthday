@@ -3,25 +3,45 @@
    Cambia estos valores para personalizar la invitación
    ============================================================ */
 const EVENT_CONFIG = {
-  eventDate: "2026-08-15T15:00:00", // Fecha y hora del evento (formato ISO)
+  eventDate: "2026-07-24T14:45:00", // Fecha y hora del evento (formato ISO)
+  childName: "Guadalupe",            // Se usa en el mensaje de WhatsApp
+  whatsappNumber: "573234403124",    // Número que recibe las confirmaciones (con código de país, sin +)
 };
 
-/* ---------- Globos de fondo flotando ---------- */
-const balloonColors = ['var(--pink)', 'var(--yellow)', 'var(--turquoise)', 'var(--violet)'];
-const bgContainer = document.getElementById('bgBalloons');
-const BG_BALLOON_COUNT = 10;
+/* ---------- Imágenes de fondo (Nezuko) — estáticas y grandes ---------- */
+const bgImagesContainer = document.getElementById('bgImages');
 
-for (let i = 0; i < BG_BALLOON_COUNT; i++) {
-  const b = document.createElement('div');
-  b.className = 'bg-balloon';
-  b.style.left = Math.random() * 100 + 'vw';
-  b.style.background = balloonColors[i % balloonColors.length];
-  const duration = 14 + Math.random() * 10;
-  const delay = Math.random() * 14;
-  b.style.animationDuration = duration + 's';
-  b.style.animationDelay = '-' + delay + 's';
-  bgContainer.appendChild(b);
-}
+// 💡 Cada imagen tiene su propia posición, tamaño y rotación.
+// Edita estos valores para mover/agrandar/achicar cada una.
+const NEZUKO_LAYOUT = [
+  { src: 'images/1.png', top: '-30px',   left: '-40px',  width: '320px', rotate: '-8deg' },
+  { src: 'images/2.png', top: '4%',      right: '-60px', width: '300px', rotate: '10deg' },
+  { src: 'images/3.png', bottom: '-20px', left: '8%',    width: '340px', rotate: '-5deg' },
+  { src: 'images/4.png', bottom: '2%',   right: '4%',    width: '300px', rotate: '7deg' },
+  { src: 'images/5.png', top: '38%',     left: '50%',    width: '360px', rotate: '0deg', extraTransform: 'translateX(-50%)' },
+  { src: 'images/2.png', top: '-20px',   left: '38%',    width: '220px', rotate: '5deg' },
+  { src: 'images/4.png', top: '18%',     left: '-70px',  width: '250px', rotate: '-12deg' },
+  { src: 'images/1.png', top: '22%',     right: '-30px', width: '230px', rotate: '9deg' },
+  { src: 'images/5.png', bottom: '30%',  left: '-50px',  width: '260px', rotate: '-6deg' },
+  { src: 'images/3.png', bottom: '34%',  right: '-40px', width: '240px', rotate: '8deg' },
+  { src: 'images/2.png', bottom: '-40px', left: '42%',   width: '280px', rotate: '4deg' },
+  { src: 'images/1.png', top: '60%',     right: '30%',   width: '200px', rotate: '-10deg' },
+];
+
+NEZUKO_LAYOUT.forEach(item => {
+  const img = document.createElement('img');
+  img.src = item.src;
+  img.alt = '';
+  img.className = 'bg-image-item';
+  img.style.width = item.width;
+  if (item.top !== undefined) img.style.top = item.top;
+  if (item.bottom !== undefined) img.style.bottom = item.bottom;
+  if (item.left !== undefined) img.style.left = item.left;
+  if (item.right !== undefined) img.style.right = item.right;
+  const rotate = `rotate(${item.rotate})`;
+  img.style.transform = item.extraTransform ? `${item.extraTransform} ${rotate}` : rotate;
+  bgImagesContainer.appendChild(img);
+});
 
 /* ---------- Confeti ---------- */
 function launchConfetti(count = 120) {
@@ -40,7 +60,10 @@ function launchConfetti(count = 120) {
   }
 }
 
-document.getElementById('surpriseBtn').addEventListener('click', () => launchConfetti(160));
+document.getElementById('surpriseBtn').addEventListener('click', () => {
+  launchConfetti(160);
+  document.getElementById('formRsvp').scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
 
 /* ---------- Countdown ---------- */
 const target = new Date(EVENT_CONFIG.eventDate).getTime();
@@ -96,24 +119,35 @@ const rsvpThanks = document.getElementById('rsvpThanks');
 
 formRsvp.addEventListener('submit', (e) => {
   e.preventDefault();
-  const name = document.getElementById('guestName').value.trim();
+  const name = document.getElementById('guestName').value.trim() || 'Invitad@';
   const asistencia = formRsvp.querySelector('input[name="asistencia"]:checked').value;
 
-  /* 💡 Aquí puedes conectar un backend real (ej. Formspree, Google Sheets, etc.)
-     enviando "name" y "asistencia" a un endpoint con fetch(). Por ahora solo
-     muestra un mensaje de confirmación en pantalla. */
+  /* ---------- Mensaje personalizado según la respuesta ---------- */
+  const message = asistencia === 'si'
+    ? `¡Hola! Soy ${name} 🎉 y confirmo mi asistencia a la fiesta de ${EVENT_CONFIG.childName}. ¡Ahí nos vemos!`
+    : `Hola, soy ${name}. Lamentablemente no podré asistir a la fiesta de ${EVENT_CONFIG.childName} 😢 ¡Gracias por la invitación!`;
+
+  const waLink = `https://wa.me/${EVENT_CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
 
   rsvpForm.style.display = 'none';
   rsvpThanks.classList.add('show');
 
+  const waFallback = document.getElementById('waFallbackLink');
+  waFallback.href = waLink;
+
   if (asistencia === 'si') {
     document.getElementById('thanksEmoji').textContent = '🎊';
-    document.getElementById('thanksTitle').textContent = '¡Genial, ' + (name || 'amig@') + '!';
-    document.getElementById('thanksMessage').textContent = 'Ya te esperamos en la fiesta. ¡Va a ser increíble!';
+    document.getElementById('thanksTitle').textContent = '¡Genial, ' + name + '!';
+    document.getElementById('thanksMessage').textContent = 'Te estamos llevando a WhatsApp para confirmar…';
     launchConfetti(200);
   } else {
     document.getElementById('thanksEmoji').textContent = '💌';
-    document.getElementById('thanksTitle').textContent = 'Gracias por avisar, ' + (name || 'amig@');
-    document.getElementById('thanksMessage').textContent = '¡Te vamos a extrañar en la fiesta!';
+    document.getElementById('thanksTitle').textContent = 'Gracias por avisar, ' + name;
+    document.getElementById('thanksMessage').textContent = 'Te estamos llevando a WhatsApp para enviar tu respuesta…';
   }
+
+  // Pequeña pausa para que se alcance a ver el mensaje/confeti antes de redirigir
+  setTimeout(() => {
+    window.location.href = waLink;
+  }, 1400);
 });
