@@ -13,17 +13,21 @@ const bgImagesContainer = document.getElementById('bgImages');
 
 // 💡 Edita estas listas para cambiar cuáles imágenes van a la izquierda o derecha,
 // su ancho base (antes de aplicar SCALE) y su rotación.
-// Menos items por columna = más espacio disponible para cada una (se pueden hacer más grandes sin chocar).
+// Más items por columna = se ven más seguidas, pero cada una tiene menos espacio para crecer.
 const LEFT_ITEMS = [
   { src: 'images/1.png', width: 340, rotate: -8 },
+  { src: 'images/3.png', width: 320, rotate: -5 },
   { src: 'images/5.png', width: 360, rotate: -6 },
+  { src: 'images/2.png', width: 330, rotate: -9 },
 ];
 const RIGHT_ITEMS = [
   { src: 'images/2.png', width: 340, rotate: 10 },
   { src: 'images/4.png', width: 340, rotate: 7 },
+  { src: 'images/1.png', width: 320, rotate: 9 },
+  { src: 'images/5.png', width: 350, rotate: 6 },
 ];
 
-const SCALE = 2.8; // multiplicador de tamaño para TODAS las nezukos
+const SCALE = 3.2; // multiplicador de tamaño para TODAS las nezukos
 
 function placeNezukos() {
   bgImagesContainer.innerHTML = '';
