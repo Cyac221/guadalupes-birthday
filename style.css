@@ -112,6 +112,22 @@ section{
   color:var(--violet);
 }
 
+.hero-photo{
+  display:flex;
+  justify-content:center;
+  margin-top:24px;
+}
+.hero-photo img{
+  width:180px;
+  height:180px;
+  object-fit:contain;
+  background:var(--white);
+  border-radius:50%;
+  border:6px solid var(--white);
+  box-shadow:0 12px 28px rgba(43,33,64,0.28);
+  transform:rotate(-3deg);
+}
+
 .surprise-btn{
   margin-top:36px;
   font-family:'Fredoka', sans-serif;
