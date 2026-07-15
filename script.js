@@ -24,13 +24,13 @@ const bgImagesContainer = document.getElementById('bgImages');
 //
 // Edita, guarda, y refresca la página para ver el resultado. Repite hasta que quede bien.
 const NEZUKO_ITEMS = [
-  { src: 'images/1.png', side: 'left',  topPercent: 2,  width: 380, rotate: -8, bleed: 0.08 },
+  { src: 'images/1.png', side: 'left',  topPercent: 2,  width: 480, rotate: -8, bleed: 0.08 },
   { src: 'images/2.png', side: 'right', topPercent: 15, width: 480, rotate: 10, bleed: 0.08 },
-  { src: 'images/3.png', side: 'left',  topPercent: 28, width: 560, rotate: -5, bleed: 0.08 },
+  { src: 'images/3.png', side: 'left',  topPercent: 28, width: 460, rotate: -5, bleed: 0.08 },
   { src: 'images/4.png', side: 'right', topPercent: 42, width: 480, rotate: 7,  bleed: 0.08 },
   { src: 'images/5.png', side: 'left',  topPercent: 55, width: 500, rotate: -6, bleed: 0.08 },
   { src: 'images/2.png', side: 'right', topPercent: 68, width: 460, rotate: -9, bleed: 0.08 },
-  { src: 'images/1.png', side: 'left',  topPercent: 94, width: 460, rotate: 9,  bleed: 0.08 },
+  { src: 'images/1.png', side: 'left',  topPercent: 80, width: 460, rotate: 9,  bleed: 0.08 },
   { src: 'images/5.png', side: 'right', topPercent: 92, width: 480, rotate: 6,  bleed: 0.08 },
 ];
 
@@ -38,11 +38,9 @@ function placeNezukos() {
   bgImagesContainer.innerHTML = '';
   const totalHeight = document.body.scrollHeight;
   const viewportWidth = window.innerWidth;
-  // En celular casi no hay margen a los lados del contenido, así que ahí usamos
-  // un tope mucho más chico para que no queden tapadas detrás de las tarjetas.
-  const maxWidthByViewport = viewportWidth < 640
-    ? viewportWidth * 0.32
-    : viewportWidth * 0.95;
+  // Mismo tope grande en todas las pantallas (móvil incluido), para que se vea
+  // igual de protagonista que en PC.
+  const maxWidthByViewport = viewportWidth * 0.95;
 
   NEZUKO_ITEMS.forEach(item => {
     // "width" ahora ES el tamaño final en píxeles (ya no se multiplica por nada).
