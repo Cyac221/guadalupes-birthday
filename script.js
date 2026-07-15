@@ -5,63 +5,60 @@
 const EVENT_CONFIG = {
   eventDate: "2026-07-24T14:45:00", // Fecha y hora del evento (formato ISO)
   childName: "Guadalupe",            // Se usa en el mensaje de WhatsApp
-  whatsappNumber: "573044378289",    // Número que recibe las confirmaciones (con código de país, sin +)
+  whatsappNumber: "573234403124",    // Número que recibe las confirmaciones (con código de país, sin +)
 };
 
-/* ---------- Imágenes de fondo (Nezuko) — repartidas sin superponerse ---------- */
+/* ---------- Imágenes de fondo (Nezuko) — posición 100% manual ---------- */
 const bgImagesContainer = document.getElementById('bgImages');
 
-// 💡 Edita estas listas para cambiar cuáles imágenes van a la izquierda o derecha,
-// su ancho base (antes de aplicar SCALE) y su rotación.
-// Más items por columna = se ven más seguidas, pero cada una tiene menos espacio para crecer.
-const LEFT_ITEMS = [
-  { src: 'images/1.png', width: 340, rotate: -8 },
-  { src: 'images/3.png', width: 320, rotate: -5 },
-  { src: 'images/5.png', width: 360, rotate: -6 },
-  { src: 'images/2.png', width: 330, rotate: -9 },
+// 💡 CÓMO MOVERLAS TÚ MISMO:
+// - "topPercent": qué tan abajo empieza, como % de TODA la altura de la página.
+//     0 = arriba del todo, 50 = a la mitad de la página, 100 = al final.
+//     Súbelo para bajar la imagen, bájalo para subirla.
+// - "side": 'left' o 'right' — de qué lado de la pantalla sale.
+// - "width": ancho FINAL en píxeles tal cual se va a ver (ya no hay multiplicador).
+//     Ej: width: 400 = se ve de 400px de ancho (a menos que no quepa en pantalla).
+// - "rotate": inclinación en grados (negativo = hacia la izquierda).
+// - "bleed": qué tanto se sale de la pantalla hacia el borde (0 = pegada al borde,
+//     0.15 = se le corta un 15% por el borde, típico para que no se vea "flotando").
+//
+// Edita, guarda, y refresca la página para ver el resultado. Repite hasta que quede bien.
+const NEZUKO_ITEMS = [
+  { src: 'images/1.png', side: 'left',  topPercent: 2,  width: 380, rotate: -8, bleed: 0.08 },
+  { src: 'images/2.png', side: 'right', topPercent: 15, width: 480, rotate: 10, bleed: 0.08 },
+  { src: 'images/3.png', side: 'left',  topPercent: 28, width: 560, rotate: -5, bleed: 0.08 },
+  { src: 'images/4.png', side: 'right', topPercent: 42, width: 480, rotate: 7,  bleed: 0.08 },
+  { src: 'images/5.png', side: 'left',  topPercent: 55, width: 500, rotate: -6, bleed: 0.08 },
+  { src: 'images/2.png', side: 'right', topPercent: 68, width: 460, rotate: -9, bleed: 0.08 },
+  { src: 'images/1.png', side: 'left',  topPercent: 94, width: 460, rotate: 9,  bleed: 0.08 },
+  { src: 'images/5.png', side: 'right', topPercent: 92, width: 480, rotate: 6,  bleed: 0.08 },
 ];
-const RIGHT_ITEMS = [
-  { src: 'images/2.png', width: 340, rotate: 10 },
-  { src: 'images/4.png', width: 340, rotate: 7 },
-  { src: 'images/1.png', width: 320, rotate: 9 },
-  { src: 'images/5.png', width: 350, rotate: 6 },
-];
-
-const SCALE = 3.2; // multiplicador de tamaño para TODAS las nezukos
 
 function placeNezukos() {
   bgImagesContainer.innerHTML = '';
   const totalHeight = document.body.scrollHeight;
   const viewportWidth = window.innerWidth;
-  const maxWidthByViewport = viewportWidth * 0.85; // nunca más del 85% del ancho de pantalla
-  const leftSpacing = totalHeight / LEFT_ITEMS.length;
-  const rightSpacing = totalHeight / RIGHT_ITEMS.length;
+  // En celular casi no hay margen a los lados del contenido, así que ahí usamos
+  // un tope mucho más chico para que no queden tapadas detrás de las tarjetas.
+  const maxWidthByViewport = viewportWidth < 640
+    ? viewportWidth * 0.32
+    : viewportWidth * 0.95;
 
-  LEFT_ITEMS.forEach((item, i) => {
-    // El ancho final respeta 3 límites a la vez: el tamaño pedido, el espacio vertical
-    // disponible (para no chocar con la siguiente) y el ancho de pantalla (para no salirse).
-    const width = Math.round(Math.min(item.width * SCALE, leftSpacing * 0.95, maxWidthByViewport));
+  NEZUKO_ITEMS.forEach(item => {
+    // "width" ahora ES el tamaño final en píxeles (ya no se multiplica por nada).
+    // Solo se achica si tu número es más grande que lo que cabe en la pantalla.
+    const width = Math.round(Math.min(item.width, maxWidthByViewport));
     const img = document.createElement('img');
     img.src = item.src;
     img.alt = '';
     img.className = 'bg-image-item';
     img.style.width = width + 'px';
-    img.style.left = '-' + Math.round(width * 0.15) + 'px';
-    img.style.top = Math.round(i * leftSpacing + leftSpacing * 0.1) + 'px';
-    img.style.transform = `rotate(${item.rotate}deg)`;
-    bgImagesContainer.appendChild(img);
-  });
-
-  RIGHT_ITEMS.forEach((item, i) => {
-    const width = Math.round(Math.min(item.width * SCALE, rightSpacing * 0.95, maxWidthByViewport));
-    const img = document.createElement('img');
-    img.src = item.src;
-    img.alt = '';
-    img.className = 'bg-image-item';
-    img.style.width = width + 'px';
-    img.style.right = '-' + Math.round(width * 0.15) + 'px';
-    // Se desfasan respecto a la columna izquierda para que se vea más natural
-    img.style.top = Math.round(i * rightSpacing + rightSpacing * 0.55) + 'px';
+    img.style.top = Math.round((item.topPercent / 100) * totalHeight) + 'px';
+    if (item.side === 'left') {
+      img.style.left = '-' + Math.round(width * item.bleed) + 'px';
+    } else {
+      img.style.right = '-' + Math.round(width * item.bleed) + 'px';
+    }
     img.style.transform = `rotate(${item.rotate}deg)`;
     bgImagesContainer.appendChild(img);
   });
