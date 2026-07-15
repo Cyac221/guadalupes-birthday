@@ -5,7 +5,7 @@
 const EVENT_CONFIG = {
   eventDate: "2026-07-24T14:45:00", // Fecha y hora del evento (formato ISO)
   childName: "Guadalupe",            // Se usa en el mensaje de WhatsApp
-  whatsappNumber: "573234403124",    // Número que recibe las confirmaciones (con código de país, sin +)
+  whatsappNumber: "573044378289",    // Número que recibe las confirmaciones (con código de país, sin +)
 };
 
 /* ---------- Imágenes de fondo (Nezuko) — posición 100% manual ---------- */
