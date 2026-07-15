@@ -24,14 +24,13 @@ const bgImagesContainer = document.getElementById('bgImages');
 //
 // Edita, guarda, y refresca la página para ver el resultado. Repite hasta que quede bien.
 const NEZUKO_ITEMS = [
-  { src: 'images/1.png', side: 'left',  topPercent: 2,  width: 480, rotate: -8, bleed: 0.08 },
-  { src: 'images/2.png', side: 'right', topPercent: 15, width: 480, rotate: 10, bleed: 0.08 },
-  { src: 'images/3.png', side: 'left',  topPercent: 28, width: 460, rotate: -5, bleed: 0.08 },
-  { src: 'images/4.png', side: 'right', topPercent: 42, width: 480, rotate: 7,  bleed: 0.08 },
-  { src: 'images/5.png', side: 'left',  topPercent: 55, width: 500, rotate: -6, bleed: 0.08 },
-  { src: 'images/2.png', side: 'right', topPercent: 68, width: 460, rotate: -9, bleed: 0.08 },
-  { src: 'images/1.png', side: 'left',  topPercent: 80, width: 460, rotate: 9,  bleed: 0.08 },
-  { src: 'images/5.png', side: 'right', topPercent: 92, width: 480, rotate: 6,  bleed: 0.08 },
+  { src: 'images/1.png', side: 'left',  topPercent: 0,  width: 180, rotate: -8, bleed: 0.08 },
+  { src: 'images/3.png', side: 'right', topPercent: 16, width: 480, rotate: 10, bleed: 0.25 },
+  { src: 'images/2.png', side: 'left',  topPercent: 25, width: 260, rotate: -5, bleed: 0.08 },
+  { src: 'images/4.png', side: 'right', topPercent: 33, width: 240, rotate: 7,  bleed: 0.08 },
+  { src: 'images/2.png', side: 'left',  topPercent: 47, width: 250, rotate: -6, bleed: -0.08 },
+  { src: 'images/5.png', side: 'right', topPercent: 70, width: 260, rotate: -9, bleed: 0.05 },
+  { src: 'images/5.png', side: 'right', topPercent: 82, width: 280, rotate: 6,  bleed: 0.08 },
 ];
 
 function placeNezukos() {
